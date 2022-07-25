@@ -9,7 +9,7 @@
 namespace r3_vectors{
 
     // Hash table for response type position vectors
-    std::vector <std::string> fcs{"f", "c", "s"};
+    extern std::vector <std::string> fcs;
 
 } // End of r3_vectors namespace
 
