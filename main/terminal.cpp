@@ -186,7 +186,7 @@ int main(){
             // Move to interpretation if above options are not triggered
             if (completion_flag==false && query != "exit"){
                 
-                token = r3_tokenise(query_upper);
+                token = tokenise(query_upper);
 
                 type_position = r3_parse_tokenisation(token);
 

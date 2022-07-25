@@ -10,7 +10,7 @@
 #include "../hdr/tokenisation.hpp"
 #include "../hdr/raw_hash_table.hpp"
 
-std::vector <std::string> r3_tokenise(std::string query_upper){
+std::vector <std::string> tokenise(std::string query_upper){
 
     // Remove potential inconsistencies from input string
     query_upper.erase(remove(query_upper.begin(), query_upper.end(), '?'), query_upper.end());
