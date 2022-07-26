@@ -35,6 +35,8 @@ std::vector <std::string> tokenise(std::string query_upper){
 
 std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 
+    type_position.clear();
+
     // Look for string vector match
     for(int i=0; i<token.size(); i++){
                     
@@ -71,7 +73,7 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 
         }
 
-        // Comparison with rank 3 contextual type functions
+        // Comparison with contextual type functions
         for(int n=0; n<types::contextual_type.size(); n++){
 
             if(token[i]==types::contextual_type[n]){

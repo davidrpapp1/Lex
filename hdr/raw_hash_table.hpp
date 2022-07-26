@@ -32,9 +32,6 @@ namespace types{
 
 // Rank 3 responses
 namespace r3_responses{
-    
-    // Continuation flag for r3 responses enumerated by commented numbers
-    extern std::vector <bool> continuation_flag;
 
     // 1
     extern std::vector <std::string> fcs_how_you;
@@ -53,13 +50,14 @@ namespace r3_responses{
 
     // 6
     extern std::vector <std::string> fcs_how_it;
+    extern bool fcs_how_it_cont_flag;
 
 } // End of namespace r3_responses
 
 // Namespace g_responses
 namespace g_responses{
 
-    extern std::vector <std::string> s_fcs_my_day;
+    extern std::vector <std::string> s_fcs_your_day;
 
     extern std::vector <std::string> s_fcs_the_day;
 
@@ -67,7 +65,7 @@ namespace g_responses{
 
     extern std::vector <std::string> s_fcs_that;
 
-    extern std::vector <std::string> s_fcs_my_life;
+    extern std::vector <std::string> s_fcs_your_life;
 
     extern std::vector <std::string> s_fcs_the_life;
 
