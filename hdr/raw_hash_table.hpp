@@ -12,15 +12,23 @@ extern std::string simple_query[6];
 extern std::string debug_table[6];
 
 // Word type categories
-namespace r3_types{
+namespace types{
 
     extern std::vector <std::string> factual_type;
 
     extern std::vector <std::string> connector_type;
+    
+    extern std::vector <std::string> contextual_type;
+
+    // Contextual flags
+    extern bool your_flag;
+    extern bool this_flag;
+    extern bool current_flag;
+    extern bool the_flag;
 
     extern std::vector <std::string> subject_type;
 
-} // End of namespace r3_categories
+} // End of namespace types
 
 // Rank 3 responses
 namespace r3_responses{
@@ -47,5 +55,24 @@ namespace r3_responses{
     extern std::vector <std::string> fcs_how_it;
 
 } // End of namespace r3_responses
+
+// Namespace g_responses
+namespace g_responses{
+
+    extern std::vector <std::string> s_fcs_my_day;
+
+    extern std::vector <std::string> s_fcs_the_day;
+
+    extern std::vector <std::string> s_fcs_it;
+
+    extern std::vector <std::string> s_fcs_that;
+
+    extern std::vector <std::string> s_fcs_my_life;
+
+    extern std::vector <std::string> s_fcs_the_life;
+
+    extern std::vector <std::string> s_fcs_experience;
+
+} // End of namespace g_responses
 
 #endif
