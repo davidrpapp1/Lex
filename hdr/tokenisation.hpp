@@ -7,6 +7,9 @@
 #include <vector>
 #include <sstream>
 
+// Error variables
+extern bool type_pos_complete_flag;
+
 // Tokenisation containers
 extern std::string query_upper;
 extern std::vector <std::string> type_position;

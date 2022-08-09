@@ -241,7 +241,7 @@ int main(){
 
                 // Rank 3 function position analysis
                 if((type_position[0]==r3_vectors::fcs[0] && type_position[1]==r3_vectors::fcs[1] && 
-                   type_position[2]==r3_vectors::fcs[2]) 
+                    type_position[2]==r3_vectors::fcs[2]) 
                    || r3_responses::fcs_how_it_cont_flag==true){  // by default if continuation flag is enabled
 
                     // How x you response protocol
@@ -374,7 +374,7 @@ int main(){
 
                         // Your x experience response protocol
                         c_tf = fcs_comparator(token, "YOUR", "EXPERIENCE"); // Needs further expansion
-                        if(c_tf==true){                                      // has a chance of ending in a question
+                        if(c_tf==true){                                     // has a chance of ending in a question
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_experience.size());
@@ -387,7 +387,7 @@ int main(){
 
                         // The x experience response protocol
                         c_tf = fcs_comparator(token, "THE", "EXPERIENCE"); // Needs further expansion
-                        if(c_tf==true){                                     // has a chance of ending in a question
+                        if(c_tf==true){                                    // has a chance of ending in a question
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_experience.size());
@@ -413,7 +413,7 @@ int main(){
 
                         // That response protocol
                         c_tf = s_comparator(token, "THAT"); // Needs further expansion
-                        if(c_tf==true){                      // has a chance of ending in a question
+                        if(c_tf==true){                     // has a chance of ending in a question
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_that.size());
