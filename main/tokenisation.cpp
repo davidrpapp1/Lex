@@ -154,9 +154,9 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 }
 
 
-int main()
+void outvec(std::string filename)
 {
-    std::string filename("sense_and_sensibility.txt");
+    //std::string filename("sense_and_sensibility.txt");
     std::string file_contents;
     std::vector <std::string> out;
 

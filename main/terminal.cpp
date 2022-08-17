@@ -133,7 +133,7 @@ int err_status(){
         
         err_container=true;
     }
-
+    return 0;
 }
 
 // Complete success
