@@ -7,9 +7,9 @@
 #include <vector>
 
 // Raw hash tables
-extern std::string simple_query[6];
+extern std::vector <std::string> simple_query;
 
-extern std::string debug_table[6];
+extern std::vector <std::string> debug_table;
 
 // Word type categories
 namespace types{
