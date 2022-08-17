@@ -13,11 +13,12 @@
 #include "../hdr/hash_table.hpp"
 #include "../hdr/tokenisation.hpp"
 #include "../hdr/comparator.hpp"
+#include "../hdr/if_multiple_processor.hpp"
 
 // Hash table declarations
-std::string simple_query[6]={"HELLO", "HI", "HI CITHRIA", "HELLO CITHRIA", "HI, CITHRIA", "HELLO, CITHRIA"};
+std::vector <std::string> simple_query{"HELLO", "HI", "HI CITHRIA", "HELLO CITHRIA", "HI, CITHRIA", "HELLO, CITHRIA"};
 
-std::string debug_table[6]={"DISPLAY ERROR STATUS", "ERROR STATUS", "CITHRIA, DISPLAY ERROR STATUS", 
+std::vector <std::string> debug_table{"DISPLAY ERROR STATUS", "ERROR STATUS", "CITHRIA, DISPLAY ERROR STATUS", 
                             "CITHRIA DISPLAY ERROR STATUS", "CITHRIA, ERROR STATUS", "CITHRIA ERROR STATUS"};
 
 // Word type categories
@@ -200,15 +201,13 @@ int main(){
         std::transform(query_upper.begin(), query_upper.end(), query_upper.begin(), ::toupper);
 
         // Basic response
-        if (query_upper == simple_query[0] || query_upper == simple_query[1] || query_upper == simple_query[2]
-         || query_upper == simple_query[3] || query_upper == simple_query[4] || query_upper == simple_query[5]){
+        if (if_or_processor_hashtable(query_upper, simple_query)==true){
             std::cout << "Hello." << std::endl;
             
             complete_success();
         
         // Debugging messages if prompted
-        } else if (query_upper == debug_table[0] || query_upper == debug_table[1] || query_upper == debug_table[2] 
-                || query_upper == debug_table[3] || query_upper == debug_table[4] || query_upper == debug_table[5]){
+        } else if (if_or_processor_hashtable(query_upper, debug_table)==true){
             std::cout << "completion_flag: " << completion_flag << std::endl << "err_container: " << err_container << std::endl;
             
             complete_success();
@@ -240,8 +239,7 @@ int main(){
                 type_position = parse_tokenisation(token);
 
                 // Rank 3 function position analysis
-                if((type_position[0]==r3_vectors::fcs[0] && type_position[1]==r3_vectors::fcs[1] && 
-                    type_position[2]==r3_vectors::fcs[2]) 
+                if((if_aa_processor_vect(type_position, r3_vectors::fcs)==true)
                    || r3_responses::fcs_how_it_cont_flag==true){  // by default if continuation flag is enabled
 
                     // How x you response protocol
