@@ -7,13 +7,16 @@
 #include <vector>
 #include <sstream>
 
+// Error variables
+extern bool type_pos_complete_flag;
+
 // Tokenisation containers
 extern std::string query_upper;
 extern std::vector <std::string> type_position;
 extern std::vector <std::string> token;
 
 // Tokenisation functions
-extern std::vector <std::string> r3_parse_tokenisation(std::vector <std::string> token);
+extern std::vector <std::string> parse_tokenisation(std::vector <std::string> token);
 extern std::vector <std::string> tokenise(std::string query_upper);
 
 #endif

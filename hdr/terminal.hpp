@@ -8,6 +8,7 @@
 
 // Variable declarations
 std::string query, query_upper;
+extern bool c_tf;
 
 // Token parsing
 std::vector <std::string> token;
