@@ -35,7 +35,7 @@ std::vector <std::string> tokenise(std::string query_upper){
     query_upper.erase(remove(query_upper.begin(), query_upper.end(), '"'), query_upper.end());
     query_upper.erase(remove(query_upper.begin(), query_upper.end(), '-'), query_upper.end());
     query_upper.erase(remove(query_upper.begin(), query_upper.end(), '\''), query_upper.end());
-    query_upper.erase(remove(query_upper.begin(), query_upper.end(), '\n'), query_upper.end());
+    std::replace(query_upper.begin(), query_upper.end(), '\n', ' ');
 
     // Intermediate tokenisation container
     std::stringstream tokenisation(query_upper);
@@ -156,7 +156,6 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 
 void outvec(std::string filename)
 {
-    //std::string filename("sense_and_sensibility.txt");
     std::string file_contents;
     std::vector <std::string> out;
 
