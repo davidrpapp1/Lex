@@ -117,8 +117,6 @@ std::vector <std::vector <std::string>> surround (std::vector <std::string> top,
 
 int main(){
     //
-    std::vector <std::vector <std::string>> topsurr;
-
     std::string file_contents;
     std::vector <std::string> out;
 
@@ -129,8 +127,8 @@ int main(){
     //
 
     //topvec function:
-    int x = 15; //top x most used words (manually change)
-    int rx = x-1; //real x as 0 is included in functions 
+    int x = 15; //top x most used words
+    int rx = 14; //real x as 0 is included in functions
     std::string samp = "qqqqqq"; //placeholder string which would not be used at all in text file
     std::vector <std::string> topvec(x, samp); //fill topvec vector with placeholder
     std::vector <std::string> badvec;  //list of words to words to ignore as disqualified
@@ -168,12 +166,83 @@ int main(){
         }
     }
 
-    
-    topsurr = surround(topvec, out, 3);
 
-    //for(int n=0;n<topsurr.size();++n){
-    //    printvector(topsurr[n]);
-    //}
+
+    int count;
+    int countnew;
+    std::string topw;
+    std::vector <std::vector <std::string>> topneighbourstot; // vector of vectors containing top neighbours for every top word (returned vector)
+    std::vector <std::vector <std::string>> neighbourstotal; // vector of vectors containing every instance of neighbours
+    std::vector <std::string> topneighbours; //vector with top neighbour words
+    
+    //
+    std::vector <std::string> top = topvec;
+    std::vector <std::string> textvec = out;
+    int num = 3; // number of neighbours on either side (adjust manually)
+    //
+
+    for(int t=0;t<top.size();++t){ //iterate across each top word
+
+        topneighbours.clear(); //reset vectors
+        neighbourstotal.clear();
+        for(int m=0;m<num*2;++m){
+            neighbourstotal.push_back({});
+        }
+ // if comment starts from here, topvec still has values
+        for(int i=0;i<textvec.size();++i){ //iterate across each word in text
+            if(top[t] == textvec[i]){ //check if word is a top word
+                for(int n=0;n<num;++n){
+                    neighbourstotal[n].push_back(textvec[i-num+n]); //add before neighbour words 
+                }
+                for(int n=1;n<num+1;++n){
+                    neighbourstotal[num+n].push_back(textvec[i+n]); //add after neighbour words
+                }
+            }
+            else{}
+        }/*  //if comment starts from here, topvec has no values
+
+        for(int n=0;n<num;n++){
+            count = 0;
+            topw = neighbourstotal[n][0];
+            for(int c=0;c<neighbourstotal[n].size();++c){
+                countnew = std::count(neighbourstotal[n].begin(), neighbourstotal[n].end(), neighbourstotal[n][c]);
+                if(countnew > count){
+                    count = countnew;
+                    topw = neighbourstotal[n][c];
+                }
+                else{}
+            }
+            topneighbours.push_back(topw);
+        }
+
+        topneighbours.push_back(top[t]);
+
+        for(int n=1;n<num+1;++n){
+            count = 0;
+            topw = neighbourstotal[num+n][0];
+            for(int c=0;c<neighbourstotal[num+n].size();++c){
+                countnew = std::count(neighbourstotal[num+n].begin(), neighbourstotal[num+n].end(), neighbourstotal[num+n][c]);
+                if(countnew > count){
+                    count = countnew;
+                    topw = neighbourstotal[num+n][c];
+                }
+                else{}
+            }
+            topneighbours.push_back(topw);
+        }
+        topneighbourstot.push_back(topneighbours);
+    }
+
+
+
+    for(int n=0;n<topneighbourstot.size();++n){
+        printvector(topneighbourstot[n]);
+        std::cout << n << std::endl;
+        */
+    }
+
+
+
 
     printvector(topvec);
 
