@@ -181,20 +181,20 @@ int main(){
     int num = 3; // number of neighbours on either side (adjust manually)
     //
 
-    for(int t=0;t<top.size();++t){ //iterate across each top word
+    for(int t=0;t<top.size();t++){ //iterate across each top word
 
         topneighbours.clear(); //reset vectors
         neighbourstotal.clear();
-        for(int m=0;m<num*2;++m){
+        for(int m=0;m<num*2;m++){
             neighbourstotal.push_back({});
         }
  // if comment starts from here, topvec still has values
-        for(int i=0;i<textvec.size();++i){ //iterate across each word in text
+        for(int i=0;i<textvec.size();i++){ //iterate across each word in text
             if(top[t] == textvec[i]){ //check if word is a top word
-                for(int n=0;n<num;++n){
+                for(int n=0;n<num;n++){
                     neighbourstotal[n].push_back(textvec[i-num+n]); //add before neighbour words 
                 }
-                for(int n=1;n<num+1;++n){
+                for(int n=1;n<num+1;n++){
                     neighbourstotal[num+n].push_back(textvec[i+n]); //add after neighbour words
                 }
             }
