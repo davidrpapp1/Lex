@@ -5,6 +5,9 @@
 #include <string>
 #include <sstream>
 #include <bits/stdc++.h>
+#include <ctime>
+#include <chrono>
+#include <iomanip>
 
 // Header files
 #include "../hdr/err.hpp"
@@ -28,15 +31,20 @@ namespace types{
 
     std::vector <std::string> connector_type{"IS", "ARE", "THE"};
 
-    std::vector <std::string> contextual_type{"YOUR", "THIS", "CURRENT", "THE"};
+    std::vector <std::string> contextual_type{"YOUR", "THIS", "THE", "IT", "CURRENT", "CURRENTLY", "TODAY", "TODAY'S", "NOW"};
 
     // Contextual flags
     bool your_flag;
     bool this_flag;
-    bool current_flag;
     bool the_flag;
+    bool it_flag;
+    bool current_flag;
+    bool currently_flag;
+    bool today_flag;
+    bool todays_flag;
+    bool now_flag;
 
-    std::vector <std::string> subject_type{"YOU", "IT", "THAT", "DAY", "LIFE", "EXPERIENCE"};
+    std::vector <std::string> subject_type{"YOU", "IT", "THAT", "DAY", "LIFE", "EXPERIENCE", "TIME", "DATE"};
 
 } // End of namespace types
 
@@ -73,9 +81,35 @@ namespace r3_responses{
     std::vector <std::string> fcs_how_it{"It is good.", "How is what?", "It is going well, thank you for asking."};
     int fcs_how_it_cont_flag=0;
 
-    // Add how is your day etc response vectors
-
 } // End of namespace r3_responses
+
+// Rank 4 responses
+namespace r4_responses{
+
+    // fccs
+
+    // 1
+    std::vector <std::string> fccs_what_time{"The current time is ", "Time right now: ", "It is currently ", "Right now it is ",
+                                             "Currently it is ", "Current time: "};
+
+    // 2
+    std::vector <std::string> fccs_what_date{"The current date is ", "Today's date: ", "Today's date is: "};
+
+    // end of fccs
+
+
+    // fscs
+
+    // 1
+    std::vector <std::string> fscs_what_time{"The current time is ", "Time right now: ", "It is currently ", "Right now it is ",
+                                             "Currently it is ", "Current time: "};
+
+    // 2
+    std::vector <std::string> fscs_what_date{"The current date is ", "Today's date: ", "Today's date is: "};
+
+    // end of fscs
+
+} // End of namespace r4_responses
 
 // Namespace g_responses
 namespace g_responses{
@@ -106,6 +140,15 @@ namespace g_responses{
     int s_fcs_experience_cont_flag=0;
 
 } // End of namespace g_responses
+
+// Namespace r4_vectors
+namespace r4_vectors{
+
+    std::vector <std::string> fccs{"f", "c", "c", "s"};
+
+    std::vector <std::string> fscs{"f", "s", "c", "s"};
+
+} // End of namespace r4_vectors
 
 // Namespace r3_vectors
 namespace r3_vectors{
@@ -201,14 +244,16 @@ int main(){
                 
                 // Capitalise string for ease of use
                 std::transform(line.begin(), line.end(), line.begin(), ::toupper);
-
+                
+                /*
                 // Seek user input string
-                /*if (line.find(query_upper) != std::string::npos){
+                if (line.find(query_upper) != std::string::npos){
                     std::cout << "\'" << query << "\'" << " was found in: " << "'sense_and_sensibility'" << std::endl;
                     
                     complete_success();
 
-                }*/
+                }
+                */
 
             }
 
@@ -220,6 +265,100 @@ int main(){
 
                 // Tokenisation positions
                 type_position = parse_tokenisation(token);
+
+                // Rank 4 function position analysis
+                if(if_aa_processor_vect(type_position, r4_vectors::fccs)==true){
+
+                    // What x x time response protocol
+                    if(token[0]=="WHAT" && token[3]=="TIME" &&
+                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
+                       types::the_flag==true || types::it_flag==true)){
+
+                        // Fetch random response from raw hash table
+                        int random = fetch_random_response_slot(r4_responses::fccs_what_time.size());
+
+                        // Store and display time according to system clock
+                        // Credits: https://www.tutorialspoint.com/cplusplus/cpp_date_time.htm
+                        time_t now = time(0);
+                        tm *local_time = localtime(&now);
+                        
+                        std::cout << r4_responses::fccs_what_time[random] << local_time->tm_hour << ":";
+                        std::cout << local_time->tm_min << ":";
+                        std::cout << local_time->tm_sec << std::endl;
+
+                        complete_success();
+
+                    }
+
+                    // What x x date response protocol
+                    if(token[0]=="WHAT" && token[3]=="DATE" &&
+                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
+                       types::the_flag==true || types::it_flag==true)){
+
+                        // Fetch random response from raw hash table
+                        int random = fetch_random_response_slot(r4_responses::fccs_what_date.size());
+
+                        // Store and display date according to system clock
+                        // Credits: https://www.tutorialspoint.com/cplusplus/cpp_date_time.htm
+                        time_t now = time(0);
+                        tm *local_time = localtime(&now);
+                        
+                        std::cout << r4_responses::fccs_what_date[random] << local_time->tm_mday << "/";
+                        std::cout << 1 + local_time->tm_mon << "/";
+                        std::cout << 1900 + local_time->tm_year << std::endl;
+
+                        complete_success();
+
+                    }
+
+                }
+                
+                // Rank 4 function position analysis
+                if(if_aa_processor_vect(type_position, r4_vectors::fscs)==true){
+
+                    // What time x x response protocol
+                    if(token[0]=="WHAT" && token[1]=="TIME" &&
+                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
+                       types::the_flag==true || types::it_flag==true)){
+
+                        // Fetch random response from raw hash table
+                        int random = fetch_random_response_slot(r4_responses::fscs_what_time.size());
+
+                        // Store and display date according to system clock
+                        // Credits: https://www.tutorialspoint.com/cplusplus/cpp_date_time.htm
+                        time_t now = time(0);
+                        tm *local_time = localtime(&now);
+                        
+                        std::cout << r4_responses::fscs_what_time[random] << local_time->tm_hour << ":";
+                        std::cout << local_time->tm_min << ":";
+                        std::cout << local_time->tm_sec << std::endl;
+
+                        complete_success();
+
+                    }
+
+                    // What date x x response protocol
+                    if(token[0]=="WHAT" && token[3]=="DATE" &&
+                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
+                       types::the_flag==true || types::it_flag==true)){
+
+                        // Fetch random response from raw hash table
+                        int random = fetch_random_response_slot(r4_responses::fscs_what_date.size());
+
+                        // Store and display date according to system clock
+                        // Credits: https://www.tutorialspoint.com/cplusplus/cpp_date_time.htm
+                        time_t now = time(0);
+                        tm *local_time = localtime(&now);
+                        
+                        std::cout << r4_responses::fscs_what_date[random] << local_time->tm_mday << "/";
+                        std::cout << 1 + local_time->tm_mon << "/";
+                        std::cout << 1900 + local_time->tm_year << std::endl;
+
+                        complete_success();
+
+                    }
+
+                }
 
                 // Rank 3 function position analysis
                 if((if_aa_processor_vect(type_position, r3_vectors::fcs)==true)

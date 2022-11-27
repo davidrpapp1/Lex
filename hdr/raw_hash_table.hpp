@@ -23,8 +23,13 @@ namespace types{
     // Contextual flags
     extern bool your_flag;
     extern bool this_flag;
-    extern bool current_flag;
     extern bool the_flag;
+    extern bool it_flag;
+    extern bool current_flag;
+    extern bool currently_flag;
+    extern bool today_flag;
+    extern bool todays_flag;
+    extern bool now_flag;
 
     extern std::vector <std::string> subject_type;
 
@@ -54,21 +59,53 @@ namespace r3_responses{
 
 } // End of namespace r3_responses
 
+// Rank 4 responses
+namespace r4_responses{
+
+    // fccs
+
+    // 1
+    extern std::vector <std::string> fccs_what_time;
+
+    // 2
+    extern std::vector <std::string> fccs_what_date;
+
+    // end of fccs
+
+    // fscs
+
+    // 1
+    extern std::vector <std::string> fscs_what_time;
+
+    // 2
+    extern std::vector <std::string> fscs_what_date;
+
+    // end of fscs
+
+} // End of namespace r4_responses
+
 // Namespace g_responses
 namespace g_responses{
 
+    // 1
     extern std::vector <std::string> s_fcs_your_day;
 
+    // 2
     extern std::vector <std::string> s_fcs_the_day;
 
+    // 3
     extern std::vector <std::string> s_fcs_it;
 
+    // 4
     extern std::vector <std::string> s_fcs_that;
 
+    // 5 
     extern std::vector <std::string> s_fcs_your_life;
 
+    // 6
     extern std::vector <std::string> s_fcs_the_life;
 
+    // 7
     extern std::vector <std::string> s_fcs_experience;
 
 } // End of namespace g_responses

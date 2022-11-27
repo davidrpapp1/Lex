@@ -48,7 +48,7 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
             if(token[i]==types::factual_type[n]){
                             
                 type_position.push_back("f"); // Factual
-                type_pos_complete_flag = true; // Type position error flag
+                type_pos_complete_flag = true; // Type position complete flag
 
             }
 
@@ -79,37 +79,27 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
         }
 
         // Comparison with contextual type functions
-        // ---------------------------------------------------------------------
-        // DO THESE FUNCTIONS NEED TO BE PINNED TO type_pos_completion_flag?
-        // MAYBE SEPERATE FLAG IF ONLY A CONTEXTUAL EXPRESSION IS PRESENTED?
-        // ---------------------------------------------------------------------
         for(int n=0; n<types::contextual_type.size(); n++){
 
             if(token[i]==types::contextual_type[n]){
                             
-                if(n=0){
+                if(n==0) types::your_flag = true; // Your
 
-                    types::your_flag = true; // Your
+                if(n==1) types::this_flag = true; // This
 
-                };
+                if(n==2) types::the_flag = true; // The
+                
+                if(n==3) types::it_flag = true; // It
 
-                if(n=1){
+                if(n==4) types::current_flag = true; // Current
 
-                    types::this_flag = true; // This
+                if(n==5) types::currently_flag = true; // Currently
 
-                };
+                if(n==6) types::today_flag = true; // Today
 
-                if(n=2){
+                if(n==7) types::todays_flag = true; // Today's
 
-                    types::current_flag = true; // Current
-
-                };
-
-                if(n=3){
-
-                    types::the_flag = true; // The
-
-                };
+                if(n==8) types::now_flag = true; // Now
                 
             }
 
