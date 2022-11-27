@@ -121,6 +121,8 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
     if (type_pos_complete_flag==true){
         return type_position;
     } else{
+
+        // UPDATE THIS ERROR FORMATTING
         std::vector <std::string> error_string{"query_error"};
         return error_string;
     }

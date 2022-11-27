@@ -71,7 +71,7 @@ namespace r3_responses{
 
     // 6
     std::vector <std::string> fcs_how_it{"It is good.", "How is what?", "It is going well, thank you for asking."};
-    bool fcs_how_it_cont_flag;
+    int fcs_how_it_cont_flag=0;
 
     // Add how is your day etc response vectors
 
@@ -90,8 +90,9 @@ namespace g_responses{
     std::vector <std::string> s_fcs_it{"It is going well, thanks.", "Thanks for asking, it's going well."};
 
     std::vector <std::string> s_fcs_that{"I am going to need to know what that is?",
-                                         "What is it you are referring to?",    // Needs additional layering
-                                         "What exactly are you referring to?"}; // ends in a question
+                                         "What is it you are referring to?",    
+                                         "What exactly are you referring to?"}; 
+    int s_fcs_that_cont_flag=0;
 
     std::vector <std::string> s_fcs_your_life{"My life has been great, I exist to help people",
                                               "Life is good, thank you for asking.",
@@ -101,7 +102,8 @@ namespace g_responses{
 
     std::vector <std::string> s_fcs_experience{"What experience are you referring to?",
                                                "I would be happy to indulge, but what experience are you refering to?",
-                                               "Which experience are you talking about?"}; // Needs additional layering
+                                               "Which experience are you talking about?"}; 
+    int s_fcs_experience_cont_flag=0;
 
 } // End of namespace g_responses
 
@@ -154,33 +156,14 @@ int fetch_random_response_slot(int size_of_vector){
 
 }
 
-// Used to identify if continuation flag is enabled
-struct compare{
-    bool key;
-    compare(bool const &i): key(i) {}
- 
-    bool operator()(bool const &i) {
-        return (i == key);
-    }
-};
-
-// Function to remove a word from a sentence for ease of processing
-void RemoveWordFromLine(std::string &line, const std::string &word)
-{
-  auto n = line.find(word);
-  if (n != std::string::npos)
-  {
-    line.erase(n, word.length());
-  }
-}
-
 // Main function
 int main(){
 
-    // Continuation flag comparison keys
+    // Continuation variables;
     bool key = true;
     bool c_tf;
     bool message_disp_flag;
+    int layer = 0;
 
     // Terminal invocation
     do{ 
@@ -240,7 +223,7 @@ int main(){
 
                 // Rank 3 function position analysis
                 if((if_aa_processor_vect(type_position, r3_vectors::fcs)==true)
-                   || r3_responses::fcs_how_it_cont_flag==true){  // by default if continuation flag is enabled
+                   || r3_responses::fcs_how_it_cont_flag>0){  // by default if continuation flag is enabled
 
                     // How x you response protocol
                     if(token[0]=="HOW" && token[2]=="YOU"){
@@ -297,6 +280,7 @@ int main(){
 
                     }
 
+                    //START--------------------------------------------------------------------------------------------------------------------------------------------------------
                     // How x it response protocol
                     if(token[0]=="HOW" && token[2]=="IT"){
 
@@ -307,8 +291,9 @@ int main(){
                         // If responded with a question, identify
                         if(r3_responses::fcs_how_it[random].find('?') != std::string::npos){
 
-                            r3_responses::fcs_how_it_cont_flag = true;
+                            r3_responses::fcs_how_it_cont_flag++;
                             message_disp_flag = false;
+                            layer++;
 
                         }
 
@@ -316,85 +301,147 @@ int main(){
 
                     }
 
-                    if (r3_responses::fcs_how_it_cont_flag==true && message_disp_flag==true){
+                    // Conditions to seek question response from user
+                    if (r3_responses::fcs_how_it_cont_flag>0 && message_disp_flag==true){
 
                         // Your x day response protocol
                         c_tf = fcs_comparator(token, "YOUR", "DAY");
-                        if(c_tf==true){
+                        if(c_tf==true && layer==1){
                                 
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_your_day.size());
                             std::cout << g_responses::s_fcs_your_day[random] << std::endl;
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
+                            r3_responses::fcs_how_it_cont_flag = 0;
+                            layer=0;
 
                         }
 
                         // The x day response protocol
                         c_tf = fcs_comparator(token, "THE", "DAY");
-                        if(c_tf==true){
+                        if(c_tf==true && layer==1){
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_the_day.size());
                             std::cout << g_responses::s_fcs_the_day[random] << std::endl;
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
+                            r3_responses::fcs_how_it_cont_flag = 0;
+                            layer=0;
 
                         }
 
                         // Your x life response protocol
                         c_tf = fcs_comparator(token, "YOUR", "LIFE");
-                        if(c_tf==true){
+                        if(c_tf==true && layer==1){
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_your_life.size());
                             std::cout << g_responses::s_fcs_your_life[random] << std::endl;
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
+                            r3_responses::fcs_how_it_cont_flag = 0;
+                            layer=0;
 
                         }
 
                         // The x life response protocol
                         c_tf = fcs_comparator(token, "THE", "LIFE");
-                        if(c_tf==true){
+                        if(c_tf==true && layer==1){
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_the_life.size());
                             std::cout << g_responses::s_fcs_the_life[random] << std::endl;
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
+                            r3_responses::fcs_how_it_cont_flag = 0;
+                            layer=0;
 
                         }
-
+                    
+                        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+                        //START--------------------------------------------------------------------------------------------------------------------------------------------------------
                         // Your x experience response protocol
-                        c_tf = fcs_comparator(token, "YOUR", "EXPERIENCE"); // Needs further expansion
-                        if(c_tf==true){                                     // has a chance of ending in a question
+                        c_tf = fcs_comparator(token, "YOUR", "EXPERIENCE"); 
+                        if(c_tf==true && layer==1){                                     
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_experience.size());
                             std::cout << g_responses::s_fcs_experience[random] << std::endl;
+
+                            // If responded with a question, identify
+                            if(g_responses::s_fcs_experience[random].find('?') != std::string::npos){
+
+                                g_responses::s_fcs_experience_cont_flag++;
+                                message_disp_flag = false;
+                                layer++;
+
+                            } else{
+                                layer=0;
+                            }
                             
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
 
                         }
 
                         // The x experience response protocol
-                        c_tf = fcs_comparator(token, "THE", "EXPERIENCE"); // Needs further expansion
-                        if(c_tf==true){                                    // has a chance of ending in a question
+                        c_tf = fcs_comparator(token, "THE", "EXPERIENCE"); 
+                        if(c_tf==true && layer==1){                                    
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_experience.size());
                             std::cout << g_responses::s_fcs_experience[random] << std::endl;
+                            
+                            // If responded with a question, identify
+                            if(g_responses::s_fcs_experience[random].find('?') != std::string::npos){
+
+                                g_responses::s_fcs_experience_cont_flag++;
+                                message_disp_flag = false;
+                                layer++;
+
+                            } else{
+                                layer=0;
+                            }
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
 
                         }
+
+                        // Conditions to seek question response from user
+                        if (g_responses::s_fcs_experience_cont_flag>0 && message_disp_flag==true){
+                            
+                            // Your x life response protocol
+                            c_tf = fcs_comparator(token, "YOUR", "LIFE");
+                            if(c_tf==true && layer==2){
+                                
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_your_life.size());
+                                std::cout << g_responses::s_fcs_your_life[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                            // The x life response protocol
+                            c_tf = fcs_comparator(token, "THE", "LIFE");
+                            if(c_tf==true && layer==2){
+                                
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_the_life.size());
+                                std::cout << g_responses::s_fcs_the_life[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                        }
+                        //END----------------------------------------------------------------------------------------------------------------------------------------------------------
+                        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
                         // It response protocol
                         c_tf = s_comparator(token, "IT");
@@ -405,24 +452,101 @@ int main(){
                             std::cout << g_responses::s_fcs_it[random] << std::endl;
                                 
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
+                            r3_responses::fcs_how_it_cont_flag = 0;
+                            layer=0;
 
                         }
 
+                        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+                        //START--------------------------------------------------------------------------------------------------------------------------------------------------------
                         // That response protocol
-                        c_tf = s_comparator(token, "THAT"); // Needs further expansion
-                        if(c_tf==true){                     // has a chance of ending in a question
+                        c_tf = s_comparator(token, "THAT"); 
+                        if(c_tf==true && layer==1){                     
                             
                             // Fetch random response from raw hash table
                             int random = fetch_random_response_slot(g_responses::s_fcs_that.size());
                             std::cout << g_responses::s_fcs_that[random] << std::endl;
                             
+                            // If responded with a question, identify
+                            if(g_responses::s_fcs_that[random].find('?') != std::string::npos){
+
+                                r3_responses::fcs_how_it_cont_flag++;
+                                message_disp_flag = false;
+                                layer++;
+
+                            } else{
+                                layer=0;
+                            }
+
                             complete_success();
-                            r3_responses::fcs_how_it_cont_flag = false;
 
                         }
 
+                        // Conditions to seek question response from user
+                        if (g_responses::s_fcs_that_cont_flag>0 && message_disp_flag==true){
+                            
+                            // Your x day response protocol
+                            c_tf = fcs_comparator(token, "YOUR", "DAY");
+                            if(c_tf==true && layer==2){
+                                    
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_your_day.size());
+                                std::cout << g_responses::s_fcs_your_day[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                            // The x day response protocol
+                            c_tf = fcs_comparator(token, "THE", "DAY");
+                            if(c_tf==true && layer==2){
+                                
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_the_day.size());
+                                std::cout << g_responses::s_fcs_the_day[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                            // Your x life response protocol
+                            c_tf = fcs_comparator(token, "YOUR", "LIFE");
+                            if(c_tf==true && layer==2){
+                                
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_your_life.size());
+                                std::cout << g_responses::s_fcs_your_life[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                            // The x life response protocol
+                            c_tf = fcs_comparator(token, "THE", "LIFE");
+                            if(c_tf==true && layer==2){
+                                
+                                // Fetch random response from raw hash table
+                                int random = fetch_random_response_slot(g_responses::s_fcs_the_life.size());
+                                std::cout << g_responses::s_fcs_the_life[random] << std::endl;
+                                    
+                                complete_success();
+                                r3_responses::fcs_how_it_cont_flag = 0;
+                                layer=0;
+
+                            }
+
+                        }
+                        //END----------------------------------------------------------------------------------------------------------------------------------------------------------
+                        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
                     }
+                    //END----------------------------------------------------------------------------------------------------------------------------------------------------------
 
                     // Message displayed before responses boolean
                     message_disp_flag = true;

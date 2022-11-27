@@ -50,7 +50,7 @@ namespace r3_responses{
 
     // 6
     extern std::vector <std::string> fcs_how_it;
-    extern bool fcs_how_it_cont_flag;
+    extern int fcs_how_it_cont_flag;
 
 } // End of namespace r3_responses
 
