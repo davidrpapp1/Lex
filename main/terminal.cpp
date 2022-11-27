@@ -44,7 +44,8 @@ namespace types{
     bool todays_flag;
     bool now_flag;
 
-    std::vector <std::string> subject_type{"YOU", "IT", "THAT", "DAY", "LIFE", "EXPERIENCE", "TIME", "DATE"};
+    std::vector <std::string> subject_type{"YOU", "IT", "THAT", "DAY", "LIFE", "EXPERIENCE", "TIME", "DATE", "TODAY", "TODAY'S",
+                                           "CURRENT", "CURRENTLY", "NOW"};
 
 } // End of namespace types
 
@@ -271,8 +272,8 @@ int main(){
 
                     // What x x time response protocol
                     if(token[0]=="WHAT" && token[3]=="TIME" &&
-                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
-                       types::the_flag==true || types::it_flag==true)){
+                      (types::current_flag==true || types::todays_flag==true || types::today_flag==true || types::now_flag==true ||
+                       types::currently_flag==true || types::the_flag==true)){
 
                         // Fetch random response from raw hash table
                         int random = fetch_random_response_slot(r4_responses::fccs_what_time.size());
@@ -292,8 +293,8 @@ int main(){
 
                     // What x x date response protocol
                     if(token[0]=="WHAT" && token[3]=="DATE" &&
-                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
-                       types::the_flag==true || types::it_flag==true)){
+                      (types::current_flag==true || types::todays_flag==true || types::today_flag==true || types::now_flag==true ||
+                       types::currently_flag==true || types::the_flag==true)){
 
                         // Fetch random response from raw hash table
                         int random = fetch_random_response_slot(r4_responses::fccs_what_date.size());
@@ -318,8 +319,8 @@ int main(){
 
                     // What time x x response protocol
                     if(token[0]=="WHAT" && token[1]=="TIME" &&
-                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
-                       types::the_flag==true || types::it_flag==true)){
+                      (types::current_flag==true || types::todays_flag==true || types::today_flag==true || types::now_flag==true ||
+                       types::currently_flag==true || types::it_flag==true)){
 
                         // Fetch random response from raw hash table
                         int random = fetch_random_response_slot(r4_responses::fscs_what_time.size());
@@ -338,9 +339,9 @@ int main(){
                     }
 
                     // What date x x response protocol
-                    if(token[0]=="WHAT" && token[3]=="DATE" &&
-                      (types::current_flag==true || types::todays_flag==true || types::now_flag==true || types::currently_flag==true ||
-                       types::the_flag==true || types::it_flag==true)){
+                    if(token[0]=="WHAT" && token[1]=="DATE" &&
+                      (types::current_flag==true || types::todays_flag==true || types::today_flag==true || types::now_flag==true ||
+                       types::currently_flag==true || types::it_flag==true)){
 
                         // Fetch random response from raw hash table
                         int random = fetch_random_response_slot(r4_responses::fscs_what_date.size());
