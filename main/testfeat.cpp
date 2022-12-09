@@ -175,11 +175,23 @@ int main(){
     std::vector <std::vector <std::string>> neighbourstotal; // vector of vectors containing every instance of neighbours
     std::vector <std::string> topneighbours; //vector with top neighbour words
     
-    //
-    std::vector <std::string> top = topvec;
-    std::vector <std::string> textvec = out;
+    //real
+    //std::vector <std::string> top = topvec;
+    //std::vector <std::string> textvec = out;
     int num = 3; // number of neighbours on either side (adjust manually)
-    //
+    //real
+
+    //test
+     std::vector <std::string> top;
+    for (int i=0; i<topvec.size(); i++){
+    top.push_back(topvec[i]);
+    }
+
+     std::vector <std::string> textvec;
+    for (int i=0; i<out.size(); i++){
+    top.push_back(out[i]);
+    }
+    //test
 
     for(int t=0;t<top.size();t++){ //iterate across each top word
 
@@ -188,7 +200,7 @@ int main(){
         for(int m=0;m<num*2;m++){
             neighbourstotal.push_back({});
         }
- // if comment starts from here, topvec still has values
+
         for(int i=0;i<textvec.size();i++){ //iterate across each word in text
             if(top[t] == textvec[i]){ //check if word is a top word
                 for(int n=0;n<num;n++){
@@ -199,22 +211,22 @@ int main(){
                 }
             }
             else{}
-        }/*  //if comment starts from here, topvec has no values
+        }  //if comment starts from here, topvec has values
 
-        for(int n=0;n<num;n++){
-            count = 0;
-            topw = neighbourstotal[n][0];
-            for(int c=0;c<neighbourstotal[n].size();++c){
+        for(int n=0;n<num;n++){ //iterate across number of neighbours for before neighbours
+            count = 0; //initial count for neighbour words for comparison
+            topw = neighbourstotal[n][0]; //initial word for comparison
+            for(int c=0;c<neighbourstotal[n].size();++c){ //iterate across all neighbours for respective top word
                 countnew = std::count(neighbourstotal[n].begin(), neighbourstotal[n].end(), neighbourstotal[n][c]);
-                if(countnew > count){
-                    count = countnew;
-                    topw = neighbourstotal[n][c];
+                if(countnew > count){ //count comparison
+                    count = countnew; //replace top count
+                    topw = neighbourstotal[n][c]; //replace top word
                 }
                 else{}
             }
-            topneighbours.push_back(topw);
+            topneighbours.push_back(topw); //add top neighbour
         }
-
+/*  If comment starts here, topvec has no values
         topneighbours.push_back(top[t]);
 
         for(int n=1;n<num+1;++n){
