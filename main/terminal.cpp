@@ -8,6 +8,7 @@
 #include <ctime>
 #include <chrono>
 #include <iomanip>
+#include <string>
 
 // Header files
 #include "../hdr/err.hpp"
@@ -165,6 +166,15 @@ namespace r1_vectors{
 
 } // End of namespace r1_vectors
 
+// Local variables
+std::vector <std::string> token_container;
+std::vector <std::string> truncated_vector_container;
+std::vector <std::string> intermediate_container;
+std::vector <std::string> token_first_half;
+std::vector <std::string> token_second_half;
+std::vector <std::string> token_final;
+int comma_index = 0;
+
 // Debugging and error function
 int err_status(){
     
@@ -207,7 +217,13 @@ int main(){
     bool key = true;
     bool c_tf;
     bool message_disp_flag;
+    bool and_trigger = false;
     int layer = 0;
+    int tokensize = 0;
+    int intermediate_container_size = 0;
+    int token_first_half_size = 0;
+    int token_second_half_size = 0;
+    int new_index = 0;
 
     // Terminal invocation
     do{ 
@@ -260,10 +276,96 @@ int main(){
 
             // Move to interpretation if above options are not triggered
             if (completion_flag==false && query != "exit"){
-                
-                // Fill token vector
-                token = tokenise(query_upper);
 
+                // Fill token vector
+                token.clear();
+                and_trigger = false;
+                token = tokenise(query_upper, and_trigger);
+
+                // Check for any "and"s
+                const std::string and_container = "AND";
+                if(if_or_processor_hashtable(and_container, token)==true){
+
+                    // If "and"(s) are found, rerun tokenisation without removing commas
+                    and_trigger = true;
+                    token = tokenise(query_upper, and_trigger);
+                    tokensize = token.size();
+
+                    // Truncate tokens that might accidentaly have stuck together
+                    for(int i=0; i<tokensize; i++){
+                        
+                        const std::string comma_container = ",";
+
+                        // Decompose strings contained within each vector slot
+                        token_container.clear();
+                        token_container = tokenise(token[i], and_trigger);
+                        for(int n=0; n<token_container.size(); n++){
+
+                            // Look for commas and seperate into more vector elements
+                            intermediate_container_size = 0;
+                            token_first_half_size = 0;
+                            token_second_half_size = 0;
+                            intermediate_container.clear();
+                            token_first_half.clear();
+                            token_second_half.clear();
+                            if(token_container[n].find(comma_container)!=std::string::npos){
+
+                                comma_index = i;
+                                std::stringstream truncation_string(token_container[n]);
+                                while(truncation_string.good()){
+                                    std::string substring;
+                                    getline(truncation_string, substring, ',');
+                                    if(intermediate_container_size!=0){
+                                        intermediate_container.push_back("AND");
+                                        intermediate_container_size++;
+                                    }
+                                    intermediate_container.push_back(substring);
+                                    intermediate_container_size++;
+                                }
+
+                                for(int location=0; location<comma_index; location++){
+                                    token_first_half.push_back(token[location]);
+                                    token_first_half_size++;
+                                }
+
+                                for(int location=comma_index+1; location<tokensize; location++){
+                                    token_second_half.push_back(token[location]);
+                                    token_second_half_size++;
+                                }
+
+                                // Construct final version of "token" with unrolled terms
+                                token.clear();
+                                for(int location=0; location<token_first_half_size; location++){
+                                    token.push_back(token_first_half[location]);
+                                }
+                                for(int location=0; location<intermediate_container_size; location++){
+                                    token.push_back(intermediate_container[location]);
+                                }
+                                for(int location=0; location<token_second_half_size; location++){
+                                    token.push_back(token_second_half[location]);
+                                }
+
+                                // Delete any redundant " "s and 
+                                // check for any duplicate "and"s, given artificial ones are introduced
+                                std::string token_location_container;
+                                for(int location=0; location<token.size(); location++){
+                                    if(token[location].empty()){
+                                        token.erase(token.begin()+location);
+                                    }
+                                }
+                                for(int location=0; location<token.size(); location++){
+                                    if(token_location_container==token[location]) token.erase(token.begin()+location);
+                                    token_location_container = token[location];
+                                }
+
+                            } 
+
+                        }
+
+                    }
+
+                } 
+                
                 // Tokenisation positions
                 type_position = parse_tokenisation(token);
 
@@ -282,7 +384,7 @@ int main(){
                         // Credits: https://www.tutorialspoint.com/cplusplus/cpp_date_time.htm
                         time_t now = time(0);
                         tm *local_time = localtime(&now);
-                        
+
                         std::cout << r4_responses::fccs_what_time[random] << local_time->tm_hour << ":";
                         std::cout << local_time->tm_min << ":";
                         std::cout << local_time->tm_sec << std::endl;

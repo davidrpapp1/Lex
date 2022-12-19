@@ -17,6 +17,6 @@ extern std::vector <std::string> token;
 
 // Tokenisation functions
 extern std::vector <std::string> parse_tokenisation(std::vector <std::string> token);
-extern std::vector <std::string> tokenise(std::string query_upper);
+extern std::vector <std::string> tokenise(std::string query_upper, bool and_trigger);
 
 #endif

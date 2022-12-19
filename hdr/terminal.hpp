@@ -9,6 +9,7 @@
 // Variable declarations
 std::string query, query_upper;
 extern bool c_tf;
+extern bool and_trigger;
 int layer;
 
 // Token parsing

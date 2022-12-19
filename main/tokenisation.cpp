@@ -10,26 +10,30 @@
 #include "../hdr/tokenisation.hpp"
 #include "../hdr/raw_hash_table.hpp"
 
-std::vector <std::string> tokenise(std::string query_upper){
+std::vector <std::string> tokenise(std::string query_upper, bool and_trigger){
 
-    // Reset token vector for new query
-    token.clear();
+    std::vector <std::string> return_token;
 
     // Remove potential inconsistencies from input string
-    query_upper.erase(remove(query_upper.begin(), query_upper.end(), '?'), query_upper.end());
-    query_upper.erase(remove(query_upper.begin(), query_upper.end(), ','), query_upper.end());
-    query_upper.erase(remove(query_upper.begin(), query_upper.end(), '.'), query_upper.end());
+                           query_upper.erase(remove(query_upper.begin(), query_upper.end(), '?'), query_upper.end());
+                           query_upper.erase(remove(query_upper.begin(), query_upper.end(), '.'), query_upper.end());
+    if(and_trigger==false) query_upper.erase(remove(query_upper.begin(), query_upper.end(), ','), query_upper.end());
 
     // Intermediate tokenisation container
     std::stringstream tokenisation(query_upper);
     std::string intermediate;
 
     // Tokenise and vectorise string
+    const std::string space_container = " ";
     while(getline(tokenisation, intermediate, ' ')){
-        token.push_back(intermediate);
+        if(intermediate.empty()){
+            // Skip because spacebar
+        } else{
+            return_token.push_back(intermediate);
+        }
     }
 
-    return token;
+    return return_token;
 
 }
 
