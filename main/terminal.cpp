@@ -186,6 +186,8 @@ std::vector <std::string> intermediate_container;
 std::vector <std::string> token_first_half;
 std::vector <std::string> token_second_half;
 std::vector <std::string> token_final;
+std::vector <std::string> and_subject_storage;
+std::vector <int> subject_swap_indices;
 int comma_index = 0;
 
 // Debugging and error function
@@ -383,7 +385,38 @@ int main(){
                 type_position = parse_tokenisation(token);
 
                 // Deal with multiple subjects/contexts seperated by "AND"s
+                // and register any indices used as a proxy for subject swapping when parsing
+                // all "AND" related queries
+                and_subject_storage.clear();
+                subject_swap_indices.clear();
+                bool local_and_edit_flag = false;
+                bool subject_swap_index_edit_flag = false;
+                for(int location=0; location<type_position.size(); location++){
+                    if(type_position[location]!="&"){
+                        if(type_position[location]=="s"){
+                            if(location+1!=type_position.size()){
+                                if(type_position[location+1]=="&"){
+                                    and_subject_storage.push_back(token[location]);
+                                    local_and_edit_flag = true;
+                                    if(subject_swap_index_edit_flag!=true) subject_swap_indices.push_back(location);
+                                    subject_swap_index_edit_flag = true;
+                                } else{
+                                    local_and_edit_flag = false;
+                                }
+                            } else if(local_and_edit_flag==true){
+                                and_subject_storage.push_back(token[location]);
+                                local_and_edit_flag = false;
+                                subject_swap_index_edit_flag = false;
+                            }
+                        }
+                    }
+                }
                 
+                for(int swap_index=0; swap_index<subject_swap_indices.size(); swap_index++){
+                    for(int subject_index=0; subject_index<and_subject_storage.size(); subject_index++){
+                        token[swap_index] = and_subject_storage[subject_index];
+                    }
+                }
 
                 // Rank 4 function position analysis
                 if(if_aa_processor_vect(type_position, r4_vectors::fccs)==true){
