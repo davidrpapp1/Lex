@@ -30,8 +30,18 @@ namespace types{
     extern bool today_flag;
     extern bool todays_flag;
     extern bool now_flag;
+    extern bool tomorrow_flag;
+    extern bool monday_flag;
+    extern bool tuesday_flag;
+    extern bool wednesday_flag;
+    extern bool thursday_flag;
+    extern bool friday_flag;
+    extern bool saturday_flag;
+    extern bool sunday_flag;
 
     extern std::vector <std::string> subject_type;
+
+    extern std::vector <std::string> and_type;
 
 } // End of namespace types
 

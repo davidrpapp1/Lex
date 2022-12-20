@@ -46,7 +46,7 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
     // Look for string vector match
     for(int i=0; i<token.size(); i++){
                     
-        // Comparison with rank 3 factual type functions
+        // Comparison with factual type functions
         for(int n=0; n<types::factual_type.size(); n++){
 
             if(token[i]==types::factual_type[n]){
@@ -58,7 +58,7 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 
         }
 
-        // Comparison with rank 3 connector type functions
+        // Comparison with connector type functions
         for(int n=0; n<types::connector_type.size(); n++){
 
             if(token[i]==types::connector_type[n]){
@@ -70,12 +70,24 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
 
         }
 
-        // Comparison with rank 3 subject type functions
+        // Comparison with subject type functions
         for(int n=0; n<types::subject_type.size(); n++){
 
             if(token[i]==types::subject_type[n]){
                             
                 type_position.push_back("s"); // Subject
+                type_pos_complete_flag = true;
+
+            }
+
+        }
+
+        // Detect "AND" positions
+        for(int n=0; n<types::subject_type.size(); n++){
+
+            if(token[i]==types::and_type[n]){
+                            
+                type_position.push_back("&"); // Subject
                 type_pos_complete_flag = true;
 
             }
@@ -104,6 +116,22 @@ std::vector <std::string> parse_tokenisation(std::vector <std::string> token){
                 if(n==7) types::todays_flag = true; // Today's
 
                 if(n==8) types::now_flag = true; // Now
+
+                if(n==9) types::tomorrow_flag = true; // Tomorrow
+
+                if(n==10) types::monday_flag = true; // Monday
+
+                if(n==11) types::tuesday_flag = true; // Tuesday
+
+                if(n==12) types::wednesday_flag = true; // Wednesday
+
+                if(n==13) types::thursday_flag = true; // Thursday
+
+                if(n==14) types::friday_flag = true; // Friday
+
+                if(n==15) types::saturday_flag = true; // Saturday
+
+                if(n==16) types::sunday_flag = true; // Sunday
                 
             }
 

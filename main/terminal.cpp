@@ -32,7 +32,9 @@ namespace types{
 
     std::vector <std::string> connector_type{"IS", "ARE", "THE"};
 
-    std::vector <std::string> contextual_type{"YOUR", "THIS", "THE", "IT", "CURRENT", "CURRENTLY", "TODAY", "TODAY'S", "NOW"};
+    std::vector <std::string> contextual_type{"YOUR", "THIS", "THE", "IT", "CURRENT", "CURRENTLY", "TODAY", 
+                                              "TODAY'S", "NOW", "TOMORROW", "MONDAY", "TUESDAY", "WEDNESDAY", 
+                                              "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
 
     // Contextual flags
     bool your_flag;
@@ -44,9 +46,20 @@ namespace types{
     bool today_flag;
     bool todays_flag;
     bool now_flag;
+    bool tomorrow_flag;
+    bool monday_flag;
+    bool tuesday_flag;
+    bool wednesday_flag;
+    bool thursday_flag;
+    bool friday_flag;
+    bool saturday_flag;
+    bool sunday_flag;
 
     std::vector <std::string> subject_type{"YOU", "IT", "THAT", "DAY", "LIFE", "EXPERIENCE", "TIME", "DATE", "TODAY", "TODAY'S",
-                                           "CURRENT", "CURRENTLY", "NOW"};
+                                           "CURRENT", "CURRENTLY", "NOW", "TOMORROW", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY",
+                                           "FRIDAY", "SATURDAY", "SUNDAY"};
+
+    std::vector <std::string> and_type{"AND"};
 
 } // End of namespace types
 
@@ -364,10 +377,13 @@ int main(){
 
                     }
 
-                } 
+                }
                 
                 // Tokenisation positions
                 type_position = parse_tokenisation(token);
+
+                // Deal with multiple subjects/contexts seperated by "AND"s
+                
 
                 // Rank 4 function position analysis
                 if(if_aa_processor_vect(type_position, r4_vectors::fccs)==true){
