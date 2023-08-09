@@ -160,7 +160,9 @@ int main(){
         std::transform(file_contents.begin(), file_contents.end(),file_contents.begin(), ::toupper); //makes all caps
 
     out = tokenise(file_contents); //tokenise file string
+    remove(out.begin(), out.end(), ""); //remove ""
     outnodup = dedup(out); //vector containing every word in text once
+    remove(outnodup.begin(), outnodup.end(), ""); //remove ""
 
     std::vector <std::vector <std::string>> nword; //iterate for word in the text
     for(int i=0;i<outnodup.size();++i){
