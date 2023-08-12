@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <utility>
+#include <filesystem>
 
 // Header files
 #include "../hdr/hash_table.hpp"
@@ -155,24 +156,32 @@ int main(){
     std::string file_contents;
     std::vector <std::string> out;
     std::vector <std::string> outnodup;
+    std::string path = "reservoir";
+    int n;
 
-    file_contents = readFileIntoString("sense_and_sensibility.txt"); //reads file to string as file_contents
-        std::transform(file_contents.begin(), file_contents.end(),file_contents.begin(), ::toupper); //makes all caps
+    std::cout << "n = ";
+    std::cin >> n;
 
-    out = tokenise(file_contents); //tokenise file string
-    remove(out.begin(), out.end(), ""); //remove ""
-    outnodup = dedup(out); //vector containing every word in text once
-    remove(outnodup.begin(), outnodup.end(), ""); //remove ""
 
-    std::vector <std::vector <std::string>> nword; //iterate for word in the text
-    for(int i=0;i<outnodup.size();++i){
-        if(outnodup[i] != ""){ //prevents ".csv" file 
-            nword = surround(outnodup[i], out, 3); //neighbour positions adjustable
-            writecsv(nword, outnodup[i]);
+    for(const auto & entry : std::filesystem::directory_iterator(path)){
+
+        file_contents = readFileIntoString(entry.path().generic_string()); //reads file to string as file_contents
+            std::transform(file_contents.begin(), file_contents.end(),file_contents.begin(), ::toupper); //makes all caps
+
+        out = tokenise(file_contents); //tokenise file string
+        remove(out.begin(), out.end(), ""); //remove ""
+        outnodup = dedup(out); //vector containing every word in text once
+        remove(outnodup.begin(), outnodup.end(), ""); //remove ""
+
+
+        std::vector <std::vector <std::string>> nword; //iterate for word in the text
+        for(int i=0;i<outnodup.size();++i){
+            if(outnodup[i] != ""){ //prevents ".csv" file 
+                nword = surround(outnodup[i], out, n); //neighbour positions adjustable
+                writecsv(nword, outnodup[i]);
+            }
         }
     }
-
-    //printvector(outnodup);
 
     return 0;
 }
