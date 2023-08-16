@@ -58,6 +58,11 @@ std::vector <std::string> tokenise(std::string query_upper){
     query_upper = replace(query_upper, ". ", " ! "); //replace all full stops with " ! " so decimal points remain
     query_upper = replace(query_upper, " (", " ( "); //creates new vector element for brackets
     query_upper = replace(query_upper, ") ", " ) ");
+    std::replace(query_upper.begin(), query_upper.end(), 'Mr!', 'Mr.'); //revert these as they are not full stops usually
+    std::replace(query_upper.begin(), query_upper.end(), 'Mrs!', 'Mrs.');
+    std::replace(query_upper.begin(), query_upper.end(), 'Ms!', 'Ms.');
+    std::replace(query_upper.begin(), query_upper.end(), 'Dr!', 'Dr.');
+    std::replace(query_upper.begin(), query_upper.end(), 'Prof!', 'Prof.');
 
 
 
